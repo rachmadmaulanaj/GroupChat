@@ -37,7 +37,7 @@ function InputChat(props) {
         setInputText('');
     }
     const handleInputEnter = (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && !isButtonDisabled) {
             handleButtonSendClick();
         }
     }

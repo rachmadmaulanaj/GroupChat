@@ -1,14 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { Modal } from 'bootstrap';
-// import NoPhoto from '../assets/images/no-photo.jpg';
-// import PhotoCowo1 from '../assets/images/photo-cowo-1.jpg';
-// import PhotoCowo2 from '../assets/images/photo-cowo-2.jpg';
-// import PhotoCowo3 from '../assets/images/photo-cowo-3.jpg';
-// import PhotoCowo4 from '../assets/images/photo-cowo-4.jpg';
-// import PhotoCewe1 from '../assets/images/photo-cewe-1.jpg';
-// import PhotoCewe2 from '../assets/images/photo-cewe-2.jpg';
-// import PhotoCewe3 from '../assets/images/photo-cewe-3.jpg';
-// import PhotoCewe4 from '../assets/images/photo-cewe-4.jpg';
 import { db } from '../firebase';
 import { collection, addDoc, getDocs, getDoc, query, where, limit } from "firebase/firestore";
 import ReactLoading from 'react-loading';
@@ -18,22 +9,21 @@ import IEyeOff from '@iconify/icons-mdi/eye-off';
 import bcrypt from 'bcryptjs';
 import Swal from 'sweetalert2';
 
-function AuthPopUp(props) {
-    /* Setingan buat hosting */
-    const NoPhoto = './assets/no-photo.jpg';
-    const PhotoCowo1 = './assets/photo-cowo-1.jpg';
-    const PhotoCowo2 = './assets/photo-cowo-2.jpg';
-    const PhotoCowo3 = './assets/photo-cowo-3.jpg';
-    const PhotoCowo4 = './assets/photo-cowo-4.jpg';
-    const PhotoCewe1 = './assets/photo-cewe-1.jpg';
-    const PhotoCewe2 = './assets/photo-cewe-2.jpg';
-    const PhotoCewe3 = './assets/photo-cewe-3.jpg';
-    const PhotoCewe4 = './assets/photo-cewe-4.jpg';
+import NoPhoto from '../assets/images/no-photo.jpg';
+import PhotoCowo1 from '../assets/images/photo-cowo-1.jpg';
+import PhotoCowo2 from '../assets/images/photo-cowo-2.jpg';
+import PhotoCowo3 from '../assets/images/photo-cowo-3.jpg';
+import PhotoCowo4 from '../assets/images/photo-cowo-4.jpg';
+import PhotoCewe1 from '../assets/images/photo-cewe-1.jpg';
+import PhotoCewe2 from '../assets/images/photo-cewe-2.jpg';
+import PhotoCewe3 from '../assets/images/photo-cewe-3.jpg';
+import PhotoCewe4 from '../assets/images/photo-cewe-4.jpg';
 
+function AuthPopUp(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isShowPassword, setIsShowPassword] = useState(false);
-    const [avatar, setAvatar] = useState({ photo: NoPhoto, type: '' });
+    const [avatar, setAvatar] = useState({ photo: NoPhoto, name: 'no-photo.jpg', type: '' });
     const [gender, setGender] = useState('');
     const [name, setName] = useState('');
     const [typeCard, setTypeCard] = useState('login');
@@ -47,10 +37,11 @@ function AuthPopUp(props) {
         setUsername('');
         setPassword('');
         setIsShowPassword(false);
-        setAvatar({ photo: NoPhoto, type: '' });
+        setAvatar({ photo: NoPhoto, name: 'no-photo.jpg', type: '' });
         setGender('');
         setName('');
         setIsShowRegister(false);
+        setIsLoadingButton(false);
         setTypeCard((prev_value) => {
             return prev_value === 'login' ? 'register' : 'login';
         });
@@ -129,7 +120,6 @@ function AuthPopUp(props) {
         }
 
         showSwalSuccess('Berhasil masuk!');
-        setIsLoadingButton(false);
         setTimeout(() => {
             props.onLogin({
                 name: data.name,
@@ -163,9 +153,9 @@ function AuthPopUp(props) {
         }
 
         showSwalSuccess('Username dapat dipakai!');
-        setIsLoadingButton(false);
         setTimeout(() => {
             setIsShowRegister(true);
+            setIsLoadingButton(false);
         }, 1500);
     }
     const hashPassword = async () => {
@@ -186,24 +176,28 @@ function AuthPopUp(props) {
             case 'type_1':
                 setAvatar({
                     photo: gender === 'Cowo' ? PhotoCowo1 : PhotoCewe1,
+                    name: `photo-${gender.toLowerCase()}-1.jpg`,
                     type: value_radio,
                 });
                 break;
             case 'type_2':
                 setAvatar({
                     photo: gender === 'Cowo' ? PhotoCowo2 : PhotoCewe2,
+                    name: `photo-${gender.toLowerCase()}-2.jpg`,
                     type: value_radio,
                 });
                 break;
             case 'type_3':
                 setAvatar({
                     photo: gender === 'Cowo' ? PhotoCowo3 : PhotoCewe3,
+                    name: `photo-${gender.toLowerCase()}-3.jpg`,
                     type: value_radio,
                 });
                 break;
             case 'type_4':
                 setAvatar({
                     photo: gender === 'Cowo' ? PhotoCowo4 : PhotoCewe4,
+                    name: `photo-${gender.toLowerCase()}-4.jpg`,
                     type: value_radio,
                 });
                 break;
@@ -217,7 +211,7 @@ function AuthPopUp(props) {
         const radio_avatars = document.querySelectorAll('.radio-avatar');
         radio_avatars.forEach(element => {
             element.checked = false;
-            setAvatar({ photo: NoPhoto, type: '' });
+            setAvatar({ photo: NoPhoto, name: 'no-photo.jpg', type: '' });
         });
         setAlertBorder({ name: '', status: false });
         e.target.classList.remove('is-invalid');
@@ -248,7 +242,7 @@ function AuthPopUp(props) {
             username: username,
             password: hashed_password,
             name: name,
-            photo: avatar.photo,
+            photo: avatar.name,
             gender: gender,
         };
 
@@ -269,7 +263,6 @@ function AuthPopUp(props) {
         }
 
         showSwalSuccess('Pendaftaran akun berhasil!');
-        setIsLoadingButton(false);
         setTimeout(() => {
             handleChangeTypeCard();
         }, 1500);
@@ -318,7 +311,7 @@ function AuthPopUp(props) {
                                             </span>
                                         </div>
                                     </div>
-                                    <button type='submit' className='btn bg-teal text-white w-100'>
+                                    <button type='submit' className='btn bg-teal text-white w-100' disabled={isLoadingButton}>
                                         {
                                             isLoadingButton ? (
                                                 <ReactLoading type='spinningBubbles' height='25px' width='25px' className='m-auto' />
@@ -343,7 +336,7 @@ function AuthPopUp(props) {
                                                 <label htmlFor='username' className='form-label'>Username</label>
                                                 <input type='text' id='username_check' value={username} className={`form-control ${alertBorder.name == 'username_check' && alertBorder.status ? 'is-invalid' : ''}`} placeholder='Username kamu' onChange={handleInputUsernameChange} />
                                             </div>
-                                            <button type='submit' className='btn bg-teal text-white w-100'>
+                                            <button type='submit' className='btn bg-teal text-white w-100' disabled={isLoadingButton}>
                                                 {
                                                     isLoadingButton ? (
                                                         <ReactLoading type='spinningBubbles' height='25px' width='25px' className='m-auto' />
@@ -407,7 +400,7 @@ function AuthPopUp(props) {
                                                     <label className='btn btn-outline-primary' htmlFor='type_4'>Type 4</label>
                                                 </div>
                                             </div>
-                                            <button type='submit' className='btn bg-teal text-white w-100'>
+                                            <button type='submit' className='btn bg-teal text-white w-100' disabled={isLoadingButton}>
                                                 {
                                                     isLoadingButton ? (
                                                         <ReactLoading type='spinningBubbles' height='25px' width='25px' className='m-auto' />

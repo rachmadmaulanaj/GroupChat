@@ -8,139 +8,9 @@ import ILogout from '@iconify/icons-mdi/logout';
 import Swal from 'sweetalert2';
 
 function ChatPage(props) {
+    const path_img = '/assets/images/';
     const [users, setUsers] = useState([]);
     const [messages, setMessages] = useState([]);
-    /*
-    const [users, setUsers] = useState([
-        {
-            "id": "HqRv7WWqI4H9ifUzU8RL",
-            "username": "dhanes",
-            "password": "testes",
-            "name": "Dhaneswara",
-            "gender": "Cewe",
-            "photo": "/src/assets/images/photo-cewe-2.jpg",
-            "color": "#A1BF0D"
-        },
-        {
-            "id": "SA2QavXWjWOT83Kg7pGv",
-            "password": "wkwk",
-            "name": "Maulana",
-            "photo": "/src/assets/images/photo-cowo-3.jpg",
-            "gender": "Cowo",
-            "username": "maulana",
-            "color": "#3BCF88"
-        },
-        {
-            "id": "YYwlnX32AzskFxVW73XN",
-            "password": "123123",
-            "gender": "Cowo",
-            "username": "rachmaddd",
-            "photo": "/src/assets/images/photo-cowo-2.jpg",
-            "name": "Rachmaddd",
-            "color": "#4D48AB"
-        },
-        {
-            "id": "Yhb4FRcybNMgq8gSWgvv",
-            "name": "Julianto",
-            "gender": "Cewe",
-            "password": "$2a$10$HEbQEgih3.vLNKVM8/ysHek7U3iBY7E8.DnQC7v.fYUlAHdmQ7jPy",
-            "photo": "/src/assets/images/photo-cewe-1.jpg",
-            "username": "julianto",
-            "color": "#892E60"
-        },
-        {
-            "id": "jpLvWG3bD3hIw3grh3T5",
-            "photo": "/src/assets/images/photo-cowo-3.jpg",
-            "gender": "Cowo",
-            "username": "maulanaaa",
-            "password": "$2a$10$KeYh2kBKENfgsAgScL5cye6GGi2qvJdNzqDAyqCJ3K0yHpuLwh.8C",
-            "name": "Maulana Orang Baik",
-            "color": "#CFA972"
-        }
-    ]);
-    const [messages, setMessages] = useState([
-        {
-            "id": "w7EJhXuEAQ5vyV7QMHC4",
-            "text": "coba ahh",
-            "timestamp": {
-                "seconds": 1705651942,
-                "nanoseconds": 899000000
-            },
-            "deleted": false,
-            "senderID": "jpLvWG3bD3hIw3grh3T5"
-        },
-        {
-            "id": "OqSZXMyDyBxXx7F61Cu1",
-            "timestamp": {
-                "seconds": 1705562411,
-                "nanoseconds": 864000000
-            },
-            "deleted": false,
-            "senderID": "Yhb4FRcybNMgq8gSWgvv",
-            "text": "ada apaa"
-        },
-        {
-            "id": "EFRsfiduP5TP0n5lDxQr",
-            "text": "yaa haloo",
-            "senderID": "Yhb4FRcybNMgq8gSWgvv",
-            "deleted": false,
-            "timestamp": {
-                "seconds": 1705562399,
-                "nanoseconds": 438000000
-            }
-        },
-        {
-            "id": "xLSTuNAggURtxCumOGY9",
-            "deleted": false,
-            "senderID": "jpLvWG3bD3hIw3grh3T5",
-            "text": "testing",
-            "timestamp": {
-                "seconds": 1705562389,
-                "nanoseconds": 629000000
-            }
-        },
-        {
-            "id": "dcaMWn3iOf5N7Y5encX6",
-            "timestamp": {
-                "seconds": 1705381258,
-                "nanoseconds": 343000000
-            },
-            "deleted": false,
-            "senderID": "SA2QavXWjWOT83Kg7pGv",
-            "text": "woooyyyy"
-        },
-        {
-            "id": "nG7zMkyySDKMz8VVPdDd",
-            "text": "testinggg",
-            "senderID": "YYwlnX32AzskFxVW73XN",
-            "deleted": false,
-            "timestamp": {
-                "seconds": 1705284085,
-                "nanoseconds": 711000000
-            }
-        },
-        {
-            "id": "HItC4m2Xol1HnHalNxes",
-            "senderID": "YYwlnX32AzskFxVW73XN",
-            "text": "alooow",
-            "deleted": false,
-            "timestamp": {
-                "seconds": 1705284000,
-                "nanoseconds": 398000000
-            }
-        },
-        {
-            "id": "pCz9PpTxKxnTXfydCmh9",
-            "text": "yaaaaaaaaaaaaaaaaaaaa",
-            "deleted": false,
-            "timestamp": {
-                "seconds": 1705283273,
-                "nanoseconds": 836000000
-            },
-            "senderID": "HqRv7WWqI4H9ifUzU8RL"
-        }
-    ]);
-    */
     const [unsubscribeUsers, setUnsubscribeUsers] = useState(null);
     const [unsubscribeMessages, setUnsubscribeMessages] = useState(null);
 
@@ -261,10 +131,6 @@ function ChatPage(props) {
             console.log('terhapus');
         }
     }, []);
-    useEffect(() => {
-        // console.log('users', users)
-        // console.log('messages', messages)
-    }, [users, messages]);
 
     return (
         <>
@@ -281,7 +147,7 @@ function ChatPage(props) {
                         <div className='card shadow-custom w-100 d-none d-md-block'>
                             <div className='card-body text-center'>
                                 <div style={{ width: '120px', margin: 'auto' }}>
-                                    <img src={props.user.photo} alt={props.user.name + '-' + props.user.gender} className='rounded-circle w-100 mb-3' />
+                                    <img src={path_img + props.user.photo} alt={props.user.name + '-' + props.user.gender} className='rounded-circle w-100 mb-3' />
                                 </div>
                                 <h5>{props.user.name}</h5>
                                 <h6>({props.user.gender})</h6>
@@ -298,7 +164,7 @@ function ChatPage(props) {
                             <div className='card-body p-3'>
                                 <div className='d-flex justify-content-between'>
                                     <div style={{ width: '100px' }}>
-                                        <img src={props.user.photo} alt={props.user.name + '-' + props.user.gender} className='rounded-circle w-100' />
+                                        <img src={path_img + props.user.photo} alt={props.user.name + '-' + props.user.gender} className='rounded-circle w-100' />
                                     </div>
                                     <div className='p-2 w-100'>
                                         <h6 className='mb-0'>{props.user.name}</h6>
