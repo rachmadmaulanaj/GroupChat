@@ -23,7 +23,7 @@ function AuthPopUp(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isShowPassword, setIsShowPassword] = useState(false);
-    const [avatar, setAvatar] = useState({ photo: NoPhoto, name: 'no-photo.jpg', type: '' });
+    const [avatar, setAvatar] = useState({ photo: NoPhoto, type: '' });
     const [gender, setGender] = useState('');
     const [name, setName] = useState('');
     const [typeCard, setTypeCard] = useState('login');
@@ -37,7 +37,7 @@ function AuthPopUp(props) {
         setUsername('');
         setPassword('');
         setIsShowPassword(false);
-        setAvatar({ photo: NoPhoto, name: 'no-photo.jpg', type: '' });
+        setAvatar({ photo: NoPhoto, type: '' });
         setGender('');
         setName('');
         setIsShowRegister(false);
@@ -123,7 +123,7 @@ function AuthPopUp(props) {
         setTimeout(() => {
             props.onLogin({
                 name: data.name,
-                photo: data.photo,
+                photo: window.location.origin + data.photo,
                 gender: data.gender,
                 id: doc_snapshot.id
             });
@@ -176,28 +176,24 @@ function AuthPopUp(props) {
             case 'type_1':
                 setAvatar({
                     photo: gender === 'Cowo' ? PhotoCowo1 : PhotoCewe1,
-                    name: `photo-${gender.toLowerCase()}-1.jpg`,
                     type: value_radio,
                 });
                 break;
             case 'type_2':
                 setAvatar({
                     photo: gender === 'Cowo' ? PhotoCowo2 : PhotoCewe2,
-                    name: `photo-${gender.toLowerCase()}-2.jpg`,
                     type: value_radio,
                 });
                 break;
             case 'type_3':
                 setAvatar({
                     photo: gender === 'Cowo' ? PhotoCowo3 : PhotoCewe3,
-                    name: `photo-${gender.toLowerCase()}-3.jpg`,
                     type: value_radio,
                 });
                 break;
             case 'type_4':
                 setAvatar({
                     photo: gender === 'Cowo' ? PhotoCowo4 : PhotoCewe4,
-                    name: `photo-${gender.toLowerCase()}-4.jpg`,
                     type: value_radio,
                 });
                 break;
@@ -211,7 +207,7 @@ function AuthPopUp(props) {
         const radio_avatars = document.querySelectorAll('.radio-avatar');
         radio_avatars.forEach(element => {
             element.checked = false;
-            setAvatar({ photo: NoPhoto, name: 'no-photo.jpg', type: '' });
+            setAvatar({ photo: NoPhoto, type: '' });
         });
         setAlertBorder({ name: '', status: false });
         e.target.classList.remove('is-invalid');
@@ -242,7 +238,7 @@ function AuthPopUp(props) {
             username: username,
             password: hashed_password,
             name: name,
-            photo: avatar.name,
+            photo: avatar.photo,
             gender: gender,
         };
 

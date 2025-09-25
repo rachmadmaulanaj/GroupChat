@@ -8,7 +8,6 @@ import ILogout from '@iconify/icons-mdi/logout';
 import Swal from 'sweetalert2';
 
 function ChatPage(props) {
-    const path_img = '/assets/images/';
     const [users, setUsers] = useState([]);
     const [messages, setMessages] = useState([]);
     const [unsubscribeUsers, setUnsubscribeUsers] = useState(null);
@@ -147,7 +146,7 @@ function ChatPage(props) {
                         <div className='card shadow-custom w-100 d-none d-md-block'>
                             <div className='card-body text-center'>
                                 <div style={{ width: '120px', margin: 'auto' }}>
-                                    <img src={path_img + props.user.photo} alt={props.user.name + '-' + props.user.gender} className='rounded-circle w-100 mb-3' />
+                                    <img src={props.user.photo} alt={props.user.name + '-' + props.user.gender} className='rounded-circle w-100 mb-3' />
                                 </div>
                                 <h5>{props.user.name}</h5>
                                 <h6>({props.user.gender})</h6>
@@ -164,7 +163,7 @@ function ChatPage(props) {
                             <div className='card-body p-3'>
                                 <div className='d-flex justify-content-between'>
                                     <div style={{ width: '100px' }}>
-                                        <img src={path_img + props.user.photo} alt={props.user.name + '-' + props.user.gender} className='rounded-circle w-100' />
+                                        <img src={props.user.photo} alt={props.user.name + '-' + props.user.gender} className='rounded-circle w-100' />
                                     </div>
                                     <div className='p-2 w-100'>
                                         <h6 className='mb-0'>{props.user.name}</h6>

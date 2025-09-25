@@ -5,7 +5,6 @@ import Moment from 'moment';
 import 'moment/locale/id';
 
 function BubbleChat(props) {
-    const path_img = '/assets/images/';
     let chat_type_class = '';
     let chat_profile_class = '';
     let chat_icon_sent = '';
@@ -29,7 +28,7 @@ function BubbleChat(props) {
         <>
             <div className={is_same_user_next ? 'chat-bubble' : 'chat-bubble pt-2'}>
                 <div className={chat_profile_class + ' ' + disabled_same_user}>
-                    <img src={path_img + props.userChat.photo} alt={props.userChat.name + '-' + props.userChat.gender} className='rounded-circle w-100' />
+                    <img src={props.userChat.photo} alt={props.userChat.name + '-' + props.userChat.gender} className='rounded-circle w-100' />
                 </div>
                 <div className={chat_type_class}>
                     <div className={is_same_user_next ? 'd-none' : ''} style={color_user}><b>{props.userChat.name}</b></div>
